@@ -1,4 +1,5 @@
 ﻿using Journey.Communication.Requests;
+using Journey.Exception.ExceptionsBase;
 
 namespace Journey.Application.UseCases.Trips.Register;
 public class RegisterTripUseCase
@@ -17,19 +18,20 @@ public class RegisterTripUseCase
 
         if (string.IsNullOrWhiteSpace(request.Name))
         {
-            throw new ArgumentException("Nome não pode ser vazio!");
+            throw new JourneyException("Nome não pode ser vazio!");
         }
 
-        // na próxima regra de negócio, eu não quero aceitar um startdate uma data menor que a data atual.
+        // na próxima regra de negócio, eu não quero aceitar um start-date uma data menor que a data atual.
+        // nem um end-date menor que a start-date.
 
         if (request.StartDate.Date < DateTime.UtcNow.Date)
         {
-            throw new ArgumentException("Data de início inválida!");
+            throw new JourneyException("Data de início inválida!");
         }
 
-        if (request.EndDate < request.StartDate)
+        if (request.EndDate.Date < request.StartDate.Date)
         {
-            throw new ArgumentException("Data de retorno inválida!");
+            throw new JourneyException("Data de retorno inválida!");
         }
     }
 }
