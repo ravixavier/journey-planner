@@ -19,9 +19,9 @@ public class TripsController : ControllerBase
             // ou RegisterTripUseCase useCase = new RegisterTripUseCase();
             // usar 'var' é apenas uma maneira mais fácil de criar uma instancia da variável.
 
-            useCase.Execute(request);
+            var response = useCase.Execute(request);
 
-            return Created();
+            return Created(string.Empty, response);
         }
         catch (JourneyException ex)
         {
