@@ -1,4 +1,5 @@
 ﻿using Journey.Application.UseCases.Trips.Register;
+using Journey.Application.UseCases.Trips.GetAll;
 using Journey.Communication.Requests;
 using Journey.Exception;
 using Journey.Exception.ExceptionsBase;
@@ -31,5 +32,15 @@ public class TripsController : ControllerBase
         {
             return StatusCode(StatusCodes.Status500InternalServerError, ResourceErrorMessages.UNKNOWN_ERROR);
         }
+    }
+
+    [HttpGet]
+    public IActionResult GetAll()
+    {
+        var useCase = new GetAllTripUseCase();
+
+        var result = useCase.Execute();
+
+        return Ok(result);
     }
 }
