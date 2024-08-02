@@ -54,6 +54,6 @@ public class TripsController : ControllerBase
 
         var response = useCase.Execute(Id);
 
-        return Ok();
+        return Ok(response);
     }
 }

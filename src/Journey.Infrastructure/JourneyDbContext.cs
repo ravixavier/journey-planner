@@ -27,4 +27,13 @@ public class JourneyDbContext : DbContext
     {
         optionsBuilder.UseSqlite("Data Source=C:\\Users\\Ravi\\source\\workspace\\JourneyDatabase.db");
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // aqui eu não dou acesso direto a minha tabela de atividades,
+        // ao invés disso eu acesso ela pela entidade Activity dentro da entidade Trip
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Activity>().ToTable("Activities");
+    }
 }
