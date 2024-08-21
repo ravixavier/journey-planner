@@ -5,6 +5,7 @@ using Journey.Exception;
 using Journey.Exception.ExceptionsBase;
 using Microsoft.AspNetCore.Mvc;
 using Journey.Application.UseCases.Trips.GetById;
+using Journey.Communication.Responses;
 
 namespace Journey.Api.Controllers;
 
@@ -13,6 +14,8 @@ namespace Journey.Api.Controllers;
 public class TripsController : ControllerBase
 {
     [HttpPost]
+    [ProducesResponseType(typeof(ResponseTripJson), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public IActionResult Register([FromBody] RequestRegisterTripJson request)
     {
         try
@@ -37,6 +40,7 @@ public class TripsController : ControllerBase
 
 
     [HttpGet]
+    [ProducesResponseType(typeof(ResponseTripsJson), StatusCodes.Status201Created)]
     public IActionResult GetAll()
     {
         var useCase = new GetAllTripUseCase();
@@ -48,6 +52,7 @@ public class TripsController : ControllerBase
 
     [HttpGet]
     [Route("{Id}")]
+    [ProducesResponseType(typeof(ResponseTripJson), StatusCodes.Status200OK)]
     public IActionResult GetById([FromRoute]Guid Id)
     {
         var useCase = new GetByIdTripUseCase();

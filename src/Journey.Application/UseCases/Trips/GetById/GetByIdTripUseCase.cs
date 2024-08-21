@@ -9,14 +9,19 @@ public class GetByIdTripUseCase
     {
         JourneyDbContext dbContext = new JourneyDbContext();
 
-        var trip = dbContext.Trips.Include(trip => trip.Activities).FirstOrDefault(trip => trip.Id == Id);
-                                    // FirstOrDeafault garante que se por algum acaso 
-                                    // o Id da resquest não corresponder com nenhum Id
-                                    // no banco de dados o valor retornado será null
-                                    // caso contrário geraria uma exceção
-                                                    // aqui temos uma função lambda
-                                                    // antes do sinal "=>" temos o parametro da função e depois do sinal "=>" temos o que a função vai realizar
-                                                    // nesse caso essa função vai comparar se trip.Id é igual ao Id que recebemos como parametro na função execute
+        var trip = dbContext
+            .Trips
+            .Include(trip => trip.Activities)
+            // o uso do Include especifica entidades relacionas para incluir no resultado da query
+            // nesse caso a tabela de atividades
+            .FirstOrDefault(trip => trip.Id == Id);
+            // FirstOrDeafault garante que se por algum acaso 
+            // o Id da resquest não corresponder com nenhum Id
+            // no banco de dados o valor retornado será null
+            // caso contrário geraria uma exceção
+                            // aqui temos uma função lambda
+                            // antes do sinal "=>" temos o parametro da função e depois do sinal "=>" temos o que a função vai realizar
+                            // nesse caso essa função vai comparar se trip.Id é igual ao Id que recebemos como parametro na função execute
 
         return new ResponseTripJson
         {
