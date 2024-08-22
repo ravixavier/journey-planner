@@ -2,10 +2,10 @@
 using Journey.Application.UseCases.Trips.GetAll;
 using Journey.Communication.Requests;
 using Journey.Exception;
-using Journey.Exception.ExceptionsBase;
 using Microsoft.AspNetCore.Mvc;
 using Journey.Application.UseCases.Trips.GetById;
 using Journey.Communication.Responses;
+using Journey.Exception.ExceptionsBase;
 
 namespace Journey.Api.Controllers;
 
@@ -53,12 +53,24 @@ public class TripsController : ControllerBase
     [HttpGet]
     [Route("{Id}")]
     [ProducesResponseType(typeof(ResponseTripJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
     public IActionResult GetById([FromRoute]Guid Id)
     {
-        var useCase = new GetByIdTripUseCase();
+        try
+        {
+            var useCase = new GetByIdTripUseCase();
 
-        var response = useCase.Execute(Id);
+            var response = useCase.Execute(Id);
 
-        return Ok(response);
+            return Ok(response);
+        }
+        catch (JourneyException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Erro Desconhecido"); 
+        }
     }
 }

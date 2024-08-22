@@ -1,4 +1,6 @@
 ﻿using Journey.Communication.Responses;
+using Journey.Exception;
+using Journey.Exception.ExceptionsBase;
 using Journey.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +24,10 @@ public class GetByIdTripUseCase
                             // aqui temos uma função lambda
                             // antes do sinal "=>" temos o parametro da função e depois do sinal "=>" temos o que a função vai realizar
                             // nesse caso essa função vai comparar se trip.Id é igual ao Id que recebemos como parametro na função execute
+
+        if (trip == null) {
+            throw new JourneyException(ResourceErrorMessages.TRIP_NOT_FOUND);
+        }
 
         return new ResponseTripJson
         {
