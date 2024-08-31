@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 namespace Journey.Infrastructure;
 
 /*
- * JourneyDbContext vai ser a classe responsável por traduzir
- * para a gente uma entidade em queries para inserir no banco de dados
- * e também o contrário, traduzir uma querie que
- * vai recuperar valores em uma entidade
+ ? JourneyDbContext vai ser a classe responsável por traduzir
+ ? para a gente uma entidade em queries para inserir no banco de dados
+ ? e também o contrário, traduzir uma querie que
+ ? vai recuperar valores em uma entidade
  */
 
 public class JourneyDbContext : DbContext

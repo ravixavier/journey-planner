@@ -26,7 +26,7 @@ public class GetByIdTripUseCase
                             // nesse caso essa função vai comparar se trip.Id é igual ao Id que recebemos como parametro na função execute
 
         if (trip == null) {
-            throw new JourneyException(ResourceErrorMessages.TRIP_NOT_FOUND);
+            throw new NotFoundException(ResourceErrorMessages.TRIP_NOT_FOUND);
         }
 
         return new ResponseTripJson

@@ -18,8 +18,6 @@ public class TripsController : ControllerBase
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public IActionResult Register([FromBody] RequestRegisterTripJson request)
     {
-        try
-        {
             var useCase = new RegisterTripUseCase();
             // ou RegisterTripUseCase useCase = new RegisterTripUseCase();
             // usar 'var' é apenas uma maneira mais fácil de criar uma instancia da variável.
@@ -27,15 +25,6 @@ public class TripsController : ControllerBase
             var response = useCase.Execute(request);
 
             return Created(string.Empty, response);
-        }
-        catch (JourneyException ex)
-        {
-            return BadRequest(ex.Message);
-        }
-       catch
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, ResourceErrorMessages.UNKNOWN_ERROR);
-        }
     }
 
 
@@ -56,21 +45,10 @@ public class TripsController : ControllerBase
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
     public IActionResult GetById([FromRoute]Guid Id)
     {
-        try
-        {
             var useCase = new GetByIdTripUseCase();
 
             var response = useCase.Execute(Id);
 
             return Ok(response);
-        }
-        catch (JourneyException ex)
-        {
-            return NotFound(ex.Message);
-        }
-        catch
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Erro Desconhecido"); 
-        }
     }
 }

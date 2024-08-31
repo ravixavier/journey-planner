@@ -51,7 +51,7 @@ public class RegisterTripUseCase
 
         if (string.IsNullOrWhiteSpace(request.Name))
         {
-            throw new JourneyException(ResourceErrorMessages.NAME_EMPTY);
+            throw new ErrorOnValidationException(ResourceErrorMessages.NAME_EMPTY);
         }
 
         // na próxima regra de negócio, eu não quero aceitar um start-date uma data menor que a data atual.
@@ -59,12 +59,12 @@ public class RegisterTripUseCase
 
         if (request.StartDate.Date < DateTime.UtcNow.Date)
         {
-            throw new JourneyException(ResourceErrorMessages.DATE_TRIP_MUST_BE_LATER_THAN_TODAY);
+            throw new ErrorOnValidationException(ResourceErrorMessages.DATE_TRIP_MUST_BE_LATER_THAN_TODAY);
         }
 
         if (request.EndDate.Date < request.StartDate.Date)
         {
-            throw new JourneyException(ResourceErrorMessages.END_DATE_TRIP_MUST_BE_LATER_START_DATE);
+            throw new ErrorOnValidationException(ResourceErrorMessages.END_DATE_TRIP_MUST_BE_LATER_START_DATE);
         }
     }
 }
