@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Journey.Exception.ExceptionsBase
@@ -9,6 +10,11 @@ namespace Journey.Exception.ExceptionsBase
     {
         public NotFoundException(string message) : base(message)
         {
+        }
+
+        public override HttpStatusCode GetStatusCode()
+        {
+            return HttpStatusCode.NotFound;
         }
     }
 }

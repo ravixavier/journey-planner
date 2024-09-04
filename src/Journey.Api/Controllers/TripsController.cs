@@ -51,4 +51,17 @@ public class TripsController : ControllerBase
 
             return Ok(response);
     }
+
+    [HttpDelete]
+    [Route("{Id}")]
+    [ProducesResponseType(typeof(ResponseTripJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    public IActionResult Delete([FromRoute]Guid Id)
+    {
+            var useCase = new GetByIdTripUseCase();
+
+            var response = useCase.Execute(Id);
+
+            return Ok(response);
+    }
 }
