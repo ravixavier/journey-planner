@@ -1,3 +1,4 @@
+using Journey.Communication;
 using Journey.Exception.ExceptionsBase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -8,17 +9,23 @@ public class ExceptionFilter : IExceptionFilter
 {
     public void OnException(ExceptionContext context)
     {
-        if (context.Exception is NotFoundException)
+        if (context.Exception is JourneyException)
         {
             var journeyException = (JourneyException)context.Exception;
             
             context.HttpContext.Response.StatusCode = (int)journeyException.GetStatusCode();
-            context.Result = new ObjectResult(context.Exception.Message);
+
+            var responseJson = new ResponseErrorsJson(journeyException.GetErrorMessages());
+
+            context.Result = new ObjectResult(responseJson);
         } 
         else
         {
             context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            context.Result = new ObjectResult("Ocorreu um erro inesperado");
+            
+            var responseJson = new ResponseErrorsJson(new List<string> {"Ocorreu um erro inesperado"});
+
+            context.Result = new ObjectResult(responseJson);
         }
     }
 }

@@ -49,22 +49,15 @@ public class RegisterTripUseCase
         // o .Net já possui um função que verifica isso, string.IsNullOrWhiteSpace
         // essa função devolve 'true' se por algum acaso a string for vazia ou nula, então lançamos um exeção
 
-        if (string.IsNullOrWhiteSpace(request.Name))
-        {
-            throw new ErrorOnValidationException(ResourceErrorMessages.NAME_EMPTY);
+        var validator = new RegisterTripValidator();
+
+        var result = validator.Validate(request);
+
+        if (result.IsValid == false) {
+            var errorMessages = result.Errors.Select(erro => erro.ErrorMessage).ToList();
+
+            throw new ErrorOnValidationException(errorMessages);
         }
 
-        // na próxima regra de negócio, eu não quero aceitar um start-date uma data menor que a data atual.
-        // nem um end-date menor que a start-date.
-
-        if (request.StartDate.Date < DateTime.UtcNow.Date)
-        {
-            throw new ErrorOnValidationException(ResourceErrorMessages.DATE_TRIP_MUST_BE_LATER_THAN_TODAY);
-        }
-
-        if (request.EndDate.Date < request.StartDate.Date)
-        {
-            throw new ErrorOnValidationException(ResourceErrorMessages.END_DATE_TRIP_MUST_BE_LATER_START_DATE);
-        }
     }
 }
