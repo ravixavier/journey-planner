@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Journey.Application.UseCases.Trips.GetById;
 using Journey.Communication.Responses;
 using Journey.Exception.ExceptionsBase;
+using Journey.Application.UseCases.Trips.Delete;
 
 namespace Journey.Api.Controllers;
 
@@ -54,14 +55,14 @@ public class TripsController : ControllerBase
 
     [HttpDelete]
     [Route("{Id}")]
-    [ProducesResponseType(typeof(ResponseTripJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
     public IActionResult Delete([FromRoute]Guid Id)
     {
-            var useCase = new GetByIdTripUseCase();
+            var useCase = new DeleteTripByIdUseCase();
 
-            var response = useCase.Execute(Id);
+            useCase.Execute(Id);
 
-            return Ok(response);
+            return NoContent();
     }
 }

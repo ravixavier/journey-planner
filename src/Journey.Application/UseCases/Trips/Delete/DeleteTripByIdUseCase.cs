@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Journey.Application.UseCases.Trips.Delete
 {
-    public class DeleteTripUseCase
+    public class DeleteTripByIdUseCase
     {
         public void Execute(Guid Id)
         {
@@ -21,6 +21,7 @@ namespace Journey.Application.UseCases.Trips.Delete
             }
 
             dbContext.Trips.Remove(trip);
+            dbContext.SaveChanges();
         }
         
     }
